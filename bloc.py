@@ -3,9 +3,9 @@ from tkinter import filedialog
 
 # ouvrir un fichier 
 def ouvrir():
-    text_area.delete('1.0', tk.END)
     ouvrir_fichier = filedialog.askopenfilename(title='selectionner un fichier',defaultextension='.txt', filetypes=[('fichier', '*.txt')])
     if ouvrir_fichier is not None:  
+        text_area.delete('1.0', tk.END)
         file =  open(ouvrir_fichier, 'r', encoding='utf-8')
         lecture = file.readlines()
         for ligne in lecture:
