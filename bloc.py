@@ -10,6 +10,8 @@ def ouvrir():
         lecture = file.readlines()
         for ligne in lecture:
             text_area.insert(tk.END, ligne)
+def copier():
+    print(main_menu)            
 # declarer la fenetre principale
 root = tk.Tk()
 root.title('Mini-bloc')
