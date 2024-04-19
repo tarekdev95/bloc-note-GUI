@@ -10,9 +10,20 @@ def ouvrir():
         lecture = file.readlines()
         for ligne in lecture:
             text_area.insert(tk.END, ligne)
-
+#enregistre un fichier
 def enregistrer():
-    print("hjgrjhij")
+    with open(filename ,'w') as file:
+        contenu = texte.get("1.0" , "end-1c")
+        file.write(contenu)
+
+#enregistre un fichier en fichier.txt
+def enregistrer_sous():
+    f = filedialog.asksaveasfile(mode='w' , defaultextension=".txt")
+    if f is None:
+        return
+    contenu = texte.get("1.0" , "end-1c")
+    f.write(contenu)
+    f.close()
 # declarer la fenetre principale
 root = tk.Tk()
 root.title('Mini-bloc')
@@ -28,8 +39,8 @@ main_menu = tk.Menu(root)
 # sous menu 1 (fichier)
 fichier = tk.Menu(main_menu, tearoff=0)
 fichier.add_command(label="ouvrir un fichier", command=ouvrir)
-fichier.add_command(label="Enregistrer")
-fichier.add_command(label="Enregistrer sous")
+fichier.add_command(label="Enregistrer" , command=enregistrer)
+fichier.add_command(label="Enregistrer sous" , command=enregistrer_sous)
 fichier.add_command(label="Quitter", command=root.quit)
 main_menu.add_cascade(label="fichier", menu=fichier)
 
@@ -50,6 +61,12 @@ outil.add_command(label="Calculatrice")
 main_menu.add_cascade(label="Outil", menu=outil)
 
 
+#zone de texte
+texte = tk.Text()
+texte.pack(expand=True , fill='both')
+
+#nom pas defaut du fichier
+filename = "notes.txt"
 
 root.config(menu=main_menu)
 root.mainloop()
