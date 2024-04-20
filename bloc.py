@@ -18,7 +18,14 @@ def copier():
         with open(file_name , 'r') as file :
             file_content = file.read()
             text_area.delete('1.0' , tk.END)
-            text_area.insert(tk.END , file_content)         
+            text_area.insert(tk.END , file_content)  
+#coller un fichier
+def coller ():
+    file_name = filedialog.askopenfilename()
+    if file_name :
+        with open (file_name ,'r' )   as file :
+            file_content = file.read()  
+            text_area.insert(tk.END , file_content)             
 # declarer la fenetre principale
 root = tk.Tk()
 root.title('Mini-bloc')
@@ -42,7 +49,7 @@ main_menu.add_cascade(label="fichier", menu=fichier)
 # sous menu 2 (editions)
 edition = tk.Menu(main_menu, tearoff=0)
 edition.add_command(label="copier",command= copier)
-edition.add_command(label = "coller")
+edition.add_command(label= "coller", command=coller)
 main_menu.add_cascade(label="edition", menu=edition)
 
 # Sous menu 3 (Option)
