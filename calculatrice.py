@@ -7,6 +7,8 @@ def formule(num):
     global formule_init
     formule_init += num
     equation.set(formule_init)
+
+# fonction CE
 clc = tk.Tk()
 clc.geometry("400x400")
 clc.title('calculatrice')
