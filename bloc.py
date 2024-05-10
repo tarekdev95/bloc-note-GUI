@@ -96,6 +96,8 @@ def ouvrir():
 
 def color_picker():
     cp = colorchooser.askcolor()
+    text_area.tag_add('color_pick', tk.SEL_FIRST, tk.SEL_LAST)
+    text_area.tag_config('color_pick', foreground=cp[1])
     
 # declarer la fenetre principale
 root = tk.Tk()
