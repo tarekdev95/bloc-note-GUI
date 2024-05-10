@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import scrolledtext
+from tkinter import colorchooser
+
 
 # fonction de la calculatrice 
 formule_init = ""
@@ -89,14 +92,21 @@ def ouvrir():
         lecture = file.readlines()
         for ligne in lecture:
             text_area.insert(tk.END, ligne)
+
+
+def color_picker():
+    cp = colorchooser.askcolor()
+    
 # declarer la fenetre principale
 root = tk.Tk()
 root.title('Mini-bloc')
 root.geometry("600x500")
 
 # espace de saisi
-text_area = tk.Text(root)
+text_area = scrolledtext.ScrolledText(root, )
 text_area.pack(fill="both", expand=True)
+
+# Bar de deroulement
 
 # menu principale
 main_menu = tk.Menu(root)
@@ -117,7 +127,7 @@ main_menu.add_cascade(label="edition", menu=edition)
 # Sous menu 3 (Option)
 option = tk.Menu(main_menu, tearoff=0)
 option.add_command(label="Taille de texte")
-option.add_command(label="Couleur")
+option.add_command(label="Couleur", command=color_picker)
 main_menu.add_cascade(label="Option", menu=option)
 
 # sous menu 4 (outil)
