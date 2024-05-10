@@ -21,6 +21,8 @@ def evaluer():
         valeur.set(resultat)
     except:
         valeur.set("error")
+
+#  Fenetre principale de la calculatrice
 clc = tk.Tk()
 clc.geometry("400x400")
 clc.title('calculatrice')
