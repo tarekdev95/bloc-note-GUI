@@ -93,12 +93,30 @@ def ouvrir():
         for ligne in lecture:
             text_area.insert(tk.END, ligne)
 
-
+# La fonction pour definir la coleur de text selectionné
 def color_picker():
     cp = colorchooser.askcolor()
     text_area.tag_add('color_pick', tk.SEL_FIRST, tk.SEL_LAST)
     text_area.tag_config('color_pick', foreground=cp[1])
+
+# la fonction pour choisir la taille de police 
     
+def copier():
+    # initialiser le presse-papier(clipboard)
+    text_area.clipboard_clear()
+    
+    # Copier le contenu de la zone de texte dans le presse-papiers
+    selected_text = text_area.selection_get()
+    text_area.clipboard_append(selected_text)
+
+
+def coller():
+    # obtenir la derniere valeur de presse-papier
+    clipboard_content = text_area.clipboard_get()
+
+    # Insérer le contenu du presse-papiers à l'emplacement selectionner
+    text_area.insert(tk.INSERT, clipboard_content)
+
 # declarer la fenetre principale
 root = tk.Tk()
 root.title('Mini-bloc')
@@ -123,7 +141,8 @@ main_menu.add_cascade(label="fichier", menu=fichier)
 
 # sous menu 2 (editions)
 edition = tk.Menu(main_menu, tearoff=0)
-edition.add_command(label="copier-coller")
+edition.add_command(label="copier", command= copier)
+edition.add_command(label="coller", command= coller)
 main_menu.add_cascade(label="edition", menu=edition)
 
 # Sous menu 3 (Option)
