@@ -8,30 +8,42 @@ def nouveau():
 
 # ouvrir un fichier 
 def ouvrir():
-    ouvrir_fichier = filedialog.askopenfilename(title='selectionner un fichier',defaultextension='.txt', filetypes=[('fichier', '*.txt')])
-    if ouvrir_fichier is not None:  
-        text_area.delete('1.0', tk.END)
-        file =  open(ouvrir_fichier, 'r', encoding='utf-8')
-        lecture = file.readlines()
-        for ligne in lecture:
-            text_area.insert(tk.END, ligne)
+    global current_file
+    file_path = filedialog.askopenfilename()
+    if file_path:
+        current_file = file_path
+        with open(file_path , 'r') as file:
+            text_area.delete("1.0" , "end")
+            text_area.insert("1.0" , file.read())
 
 # enregistre un fichier
-def enregistre():
-    file_name = filedialog.askopenfilename(mode = 'w' , dafaultextension = ".txt")
-    if file_name:
-        with open(file_name , 'r') as file:
-            file_content = file.read()
-            text_area.delete('1.0' , tk.END)
-            text_area.insert(tk.END , file_content)
+    def enregistrer():
+    if current_file:
+        with open(current_file , 'w') as file:
+            file.write(text_area.get("1.0" , "end-1c"))
+    else:
+        enregistrer_sous()
 
-# enregistre un fichier en fichier.txt
 def enregistrer_sous():
-    fichier = filedialog.asksaveasfile(mode='w' , defaultextension=".txt")
-    if fichier is None:
-        contenu = text.get("1.0" , tk.END)
-        with open(fichier , 'r') as file:
-            file.read(contenu)
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt")
+    if file_path:
+        with open(file_path , "w") as file:
+            file.write(text_area.get("1.0" , "end-1c"))
+            
+def copier_text():
+#recupere le texte selectionne dans la zone de texte
+    choice_text = text_area.get("1.0" , "end-1c")
+#ajoute le texte au presse-papiers
+    root.clipboard_clear()
+    root.clipboard_append(choice_text)
+
+def coller_text():
+#recupere le texte du presse-papiers
+    clipboard_text = root.clipboard_get()
+#insere le texte dans le widget
+    text_area.insert("insert" , clipboard_text)
+
+
 # declarer la fenetre principale
 root = tk.Tk()
 root.title('Mini-bloc')
@@ -40,6 +52,8 @@ root.geometry("300x400")
 # espace de saisi
 text_area = tk.Text(root)
 text_area.pack(fill="both", expand=True)
+text_area.bind("<Control-c>" , copier_text)
+text_area.bind("<Control-v>" , coller_text)
 
 # menu principale
 main_menu = tk.Menu(root)
@@ -55,8 +69,8 @@ main_menu.add_cascade(label="fichier", menu=fichier)
 
 # sous menu 2 (editions)
 edition = tk.Menu(main_menu, tearoff=0)
-edition.add_command(label="copier")
-edition.add_command(label="coller")
+edition.add_command(label="copier" , command=copier_text)
+edition.add_command(label="coller" , command=coller_text)
 main_menu.add_cascade(label="edition", menu=edition)
 
 # Sous menu 3 (Option)
