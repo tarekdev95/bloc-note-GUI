@@ -17,7 +17,7 @@ def ouvrir():
             text_area.insert("1.0" , file.read())
 
 # enregistre un fichier
-    def enregistrer():
+def enregistrer():
     if current_file:
         with open(current_file , 'w') as file:
             file.write(text_area.get("1.0" , "end-1c"))
