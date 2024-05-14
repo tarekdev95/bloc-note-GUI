@@ -83,8 +83,13 @@ def calculatrice():
 
     clc.mainloop()
 
+# nouveau fichier
+def new_file():
+    text_area.delete("1.0", tk.END)
+
 # ouvrir un fichier 
 def ouvrir():
+    global ouvrir_fichier
     ouvrir_fichier = filedialog.askopenfilename(title='selectionner un fichier',defaultextension='.txt', filetypes=[('fichier', '*.txt')])
     if ouvrir_fichier is not None:  
         text_area.delete('1.0', tk.END)
@@ -92,6 +97,20 @@ def ouvrir():
         lecture = file.readlines()
         for ligne in lecture:
             text_area.insert(tk.END, ligne)
+
+def enregistrer():
+    if ouvrir_fichier:
+        with open(ouvrir_fichier , 'w') as file:
+            file.write(text_area.get("1.0" , "end-1c"))
+    else:
+        enregistrer_sous()
+
+def enregistrer_sous():
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt")
+    if file_path:
+        with open(file_path , "w") as file:
+            file.write(text_area.get("1.0" , "end-1c"))
+
 
 # La fonction pour definir la coleur de text selectionné
 def color_picker():
@@ -123,7 +142,7 @@ root.title('Mini-bloc')
 root.geometry("600x500")
 
 # espace de saisi
-text_area = scrolledtext.ScrolledText(root, )
+text_area = scrolledtext.ScrolledText(root)
 text_area.pack(fill="both", expand=True)
 
 # Bar de deroulement
@@ -133,9 +152,10 @@ main_menu = tk.Menu(root)
 
 # sous menu 1 (fichier)
 fichier = tk.Menu(main_menu, tearoff=0)
+fichier.add_command(label="nouveau", command=new_file)
 fichier.add_command(label="ouvrir un fichier", command=ouvrir)
-fichier.add_command(label="Enregistrer")
-fichier.add_command(label="Enregistrer sous")
+fichier.add_command(label="Enregistrer", command=enregistrer)
+fichier.add_command(label="Enregistrer sous", command=enregistrer_sous)
 fichier.add_command(label="Quitter", command=root.quit)
 main_menu.add_cascade(label="fichier", menu=fichier)
 
@@ -147,7 +167,7 @@ main_menu.add_cascade(label="edition", menu=edition)
 
 # Sous menu 3 (Option)
 option = tk.Menu(main_menu, tearoff=0)
-option.add_command(label="Taille de texte")
+#option.add_command(label="Taille de texte")
 option.add_command(label="Couleur", command=color_picker)
 main_menu.add_cascade(label="Option", menu=option)
 
